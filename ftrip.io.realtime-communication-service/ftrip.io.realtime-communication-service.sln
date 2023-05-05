@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33529.622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ftrip.io.rtc-service", "ftrip.io.rtc-service\ftrip.io.rtc-service.csproj", "{E48575AF-E752-4FC2-A1D0-7CC633D691F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ftrip.io.rtc-service.contracts", "ftrip.io.rtc-service.contracts\ftrip.io.rtc-service.contracts.csproj", "{12FAC3E4-C288-4F69-B022-1DA0288BF5A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E48575AF-E752-4FC2-A1D0-7CC633D691F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E48575AF-E752-4FC2-A1D0-7CC633D691F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E48575AF-E752-4FC2-A1D0-7CC633D691F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E48575AF-E752-4FC2-A1D0-7CC633D691F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12FAC3E4-C288-4F69-B022-1DA0288BF5A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12FAC3E4-C288-4F69-B022-1DA0288BF5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12FAC3E4-C288-4F69-B022-1DA0288BF5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12FAC3E4-C288-4F69-B022-1DA0288BF5A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3AFBB84D-EABE-4867-B06D-85D5AC808F39}
+	EndGlobalSection
+EndGlobal
