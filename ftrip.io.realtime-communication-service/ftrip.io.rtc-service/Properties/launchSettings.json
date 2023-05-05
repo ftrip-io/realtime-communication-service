@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "api/healthcheck-api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,10 +20,19 @@
     "ftrip.io.rtc_service": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "launchUrl": "api/healthcheck-api",
+      "applicationUrl": "https://localhost:5005;http://localhost:4496",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+
+        "RMQ_SERVER": "localhost",
+        "RMQ_PORT": "5672",
+        "RMQ_USER": "user",
+        "RMQ_PASSWORD": "password",
+
+        "API_PROXY_URL": "http://localhost:3000",
+
+        "JWT_SECRET": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
       }
     }
   }
