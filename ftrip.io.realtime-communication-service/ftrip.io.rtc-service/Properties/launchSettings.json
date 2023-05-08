@@ -1,0 +1,39 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:63558",
+      "sslPort": 44395
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "api/healthcheck-api",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "ftrip.io.rtc_service": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api/healthcheck-api",
+      "applicationUrl": "https://localhost:5005;http://localhost:4496",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+
+        "RMQ_SERVER": "localhost",
+        "RMQ_PORT": "5672",
+        "RMQ_USER": "user",
+        "RMQ_PASSWORD": "password",
+
+        "API_PROXY_URL": "http://localhost:3000",
+
+        "JWT_SECRET": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>ftrip.io.rtc_service</RootNamespace>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
+    <PackageReference Include="ftrip.io.framework" Version="2.3.0" />
+    <PackageReference Include="ftrip.io.framework.auth" Version="2.3.0" />
+    <PackageReference Include="ftrip.io.framework.messaging" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <ProjectReference Include="..\..\..\framework\ftrip.io.framework\ftrip.io.framework\ftrip.io.framework.csproj" />
+    <ProjectReference Include="..\..\..\framework\ftrip.io.framework\ftrip.io.framework.auth\ftrip.io.framework.auth.csproj" />
+    <ProjectReference Include="..\..\..\framework\ftrip.io.framework\ftrip.io.framework.messaging\ftrip.io.framework.messaging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ftrip.io.rtc-service.contracts\ftrip.io.rtc-service.contracts.csproj" />
+  </ItemGroup>
+
+</Project>
