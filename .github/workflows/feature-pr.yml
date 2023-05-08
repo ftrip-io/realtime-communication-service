@@ -1,0 +1,78 @@
+name: Feature PR to Develop Workflow
+on:
+  pull_request:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/ftrip.io.realtime-communication-service/.nuget/packages
+      DOTNET_INSTALL_DIR: ./.dotnet
+      CONFIGURATION: Release
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache .NET 3.1
+        id: cache-dotnet
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.DOTNET_INSTALL_DIR }}
+          key: ${{ runner.os }}-dotnet-3.1
+
+      - name: Setup .NET 3.1
+        if: steps.cache-dotnet.outputs.cache-hit != 'true'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 3.1
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: ./.sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ./.sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.NUGET_PACKAGES }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore /p:Configuration=${{ env.CONFIGURATION }} ftrip.io.realtime-communication-service/ftrip.io.realtime-communication-service.sln
+
+      - name: Build, Analyze and Generate Code Coverage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          shopt -s expand_aliases
+          alias dotnet3="${{ env.DOTNET_INSTALL_DIR }}/dotnet"
+          alias sonarscanner="./.sonar/scanner/dotnet-sonarscanner"
+
+          sonarscanner begin /k:"ftrip-io_realtime-communication-service" /o:"ftrip-io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+
+          dotnet3 build ftrip.io.realtime-communication-service/ftrip.io.realtime-communication-service.sln \
+            --no-restore \
+            -c ${{ env.CONFIGURATION }}
+          dotnet3 publish ftrip.io.realtime-communication-service/ftrip.io.rtc-service/ftrip.io.rtc-service.csproj \
+            --no-build \
+            --no-restore \
+            -c ${{ env.CONFIGURATION }}
+
+          sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
