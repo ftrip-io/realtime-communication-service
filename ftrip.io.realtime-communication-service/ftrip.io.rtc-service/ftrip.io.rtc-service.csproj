@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -7,15 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="ftrip.io.framework" Version="2.3.0" />
-    <PackageReference Include="ftrip.io.framework.auth" Version="2.3.0" />
-    <PackageReference Include="ftrip.io.framework.messaging" Version="2.3.0" />
+    <PackageReference Include="ftrip.io.framework" Version="2.4.1" />
+    <PackageReference Include="ftrip.io.framework.auth" Version="2.4.1" />
+    <PackageReference Include="ftrip.io.framework.messaging" Version="2.4.1" />
+
+    <PackageReference Include="ftrip.io.notification-service.contracts" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <ProjectReference Include="..\..\..\framework\ftrip.io.framework\ftrip.io.framework\ftrip.io.framework.csproj" />
     <ProjectReference Include="..\..\..\framework\ftrip.io.framework\ftrip.io.framework.auth\ftrip.io.framework.auth.csproj" />
     <ProjectReference Include="..\..\..\framework\ftrip.io.framework\ftrip.io.framework.messaging\ftrip.io.framework.messaging.csproj" />
+
+    <ProjectReference Include="..\..\..\notification-service\ftrip.io.notification-service\ftrip.io.notification-service.contracts\ftrip.io.notification-service.contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.3" />
   </ItemGroup>
 
   <ItemGroup>

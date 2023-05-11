@@ -1,4 +1,3 @@
-using ftrip.io.framework.auth;
 using ftrip.io.framework.ExceptionHandling.Extensions;
 using ftrip.io.framework.HealthCheck;
 using ftrip.io.framework.Installers;
@@ -6,6 +5,8 @@ using ftrip.io.framework.Mapping;
 using ftrip.io.framework.messaging.Installers;
 using ftrip.io.framework.Secrets;
 using ftrip.io.framework.Validation;
+using ftrip.io.rtc_service.Installers;
+using ftrip.io.rtc_service.Notifications;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,8 +35,9 @@ namespace ftrip.io.rtc_service
                 new AutoMapperInstaller<Startup>(services),
                 new FluentValidationInstaller<Startup>(services),
                 new EnviromentSecretsManagerInstaller(services),
-                new JwtAuthenticationInstaller(services),
-                new RabbitMQInstaller<Startup>(services, RabbitMQInstallerType.Publisher | RabbitMQInstallerType.Consumer)
+                new WebSocketJwtAuthenticationInstaller(services),
+                new RabbitMQInstaller<Startup>(services, RabbitMQInstallerType.Publisher | RabbitMQInstallerType.Consumer),
+                new SignalRInstaller(services)
             ).Install();
         }
 
@@ -47,7 +49,7 @@ namespace ftrip.io.rtc_service
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -55,8 +57,10 @@ namespace ftrip.io.rtc_service
                .WithOrigins(Environment.GetEnvironmentVariable("API_PROXY_URL"))
                .AllowAnyMethod()
                .AllowAnyHeader()
+               .AllowCredentials()
             );
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseFtripioGlobalExceptionHandler();
@@ -64,6 +68,8 @@ namespace ftrip.io.rtc_service
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapHub<NotificationsHub>(NotificationsHub.Endpoint);
             });
 
             app.UseFtripioHealthCheckUI(Configuration.GetSection(nameof(HealthCheckUISettings)).Get<HealthCheckUISettings>());

@@ -21,7 +21,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/healthcheck-api",
-      "applicationUrl": "https://localhost:5005;http://localhost:4496",
+      "applicationUrl": "https://localhost:5005;http://localhost:4996",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
 
