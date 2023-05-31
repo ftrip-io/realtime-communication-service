@@ -1,9 +1,11 @@
+using ftrip.io.framework.Correlation;
 using ftrip.io.framework.ExceptionHandling.Extensions;
 using ftrip.io.framework.HealthCheck;
 using ftrip.io.framework.Installers;
 using ftrip.io.framework.Mapping;
 using ftrip.io.framework.messaging.Installers;
 using ftrip.io.framework.Secrets;
+using ftrip.io.framework.Tracing;
 using ftrip.io.framework.Validation;
 using ftrip.io.rtc_service.Installers;
 using ftrip.io.rtc_service.Notifications;
@@ -37,7 +39,14 @@ namespace ftrip.io.rtc_service
                 new EnviromentSecretsManagerInstaller(services),
                 new WebSocketJwtAuthenticationInstaller(services),
                 new RabbitMQInstaller<Startup>(services, RabbitMQInstallerType.Publisher | RabbitMQInstallerType.Consumer),
-                new SignalRInstaller(services)
+                new SignalRInstaller(services),
+                new CorrelationInstaller(services),
+                new TracingInstaller(services, (tracingSettings) =>
+                {
+                    tracingSettings.ApplicationLabel = "rtc";
+                    tracingSettings.ApplicationVersion = GetType().Assembly.GetName().Version?.ToString() ?? "unknown";
+                    tracingSettings.MachineName = Environment.MachineName;
+                })
             ).Install();
         }
 
@@ -63,6 +72,7 @@ namespace ftrip.io.rtc_service
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCorrelation();
             app.UseFtripioGlobalExceptionHandler();
 
             app.UseEndpoints(endpoints =>
