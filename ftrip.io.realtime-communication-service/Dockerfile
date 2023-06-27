@@ -19,10 +19,9 @@ RUN dotnet publish -c $CONFIGURATION -o out ftrip.io.rtc-service/ftrip.io.rtc-se
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine AS final
 WORKDIR /app
 
-RUN addgroup --system ftrip-io
-RUN adduser --system rtc-service
+RUN addgroup --system ftrip-io && adduser --system rtc-service
 
-COPY --from=build --chown=rtc-service:ftrip-io --chmod=500 /build/out .
+COPY --from=build --chown=rtc-service:ftrip-io --chmod=777 /build/out .
 
 EXPOSE 80
 
